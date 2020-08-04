@@ -17,13 +17,14 @@ ActiveRecord::Schema.define(version: 2020_08_04_152614) do
     t.string "price"
     t.string "name"
     t.string "description"
-    t.string "condition"
+    t.integer "condition"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "stores", force: :cascade do |t|
     t.integer "user_id"
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -32,6 +33,7 @@ ActiveRecord::Schema.define(version: 2020_08_04_152614) do
     t.string "name"
     t.string "email"
     t.string "password_digest"
+    t.decimal "balance"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

@@ -5,7 +5,7 @@ class CreateItems < ActiveRecord::Migration[6.0]
       t.string :price
       t.string :name
       t.string :description
-      t.string :condition
+      t.integer :condition
 
       t.timestamps
     end
