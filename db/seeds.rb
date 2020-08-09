@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-jayson = User.create(name: "Jayson", email: "jayson.kesterson24@gmail.com", password: "Jnapk1ns", balance: 100.00)
+jayson = User.create(name: "Jayson", email: "jayson.kesterson24@gmail.com", password: "Jnapk1ns", balance: 100.0)
 store = Store.create(user_id: 1, name: "Used Items")
 driver = Item.create(store_id: 1, price: "$40.00", name: "v300 Driver", description: "Golf Driver from the v300 set, 460cc and 10.5 degree loft", condition: 6)
 
