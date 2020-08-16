@@ -31,8 +31,9 @@ class Api::V1::UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
-      render json: @user
+    @newbalance = @user.balance + (params[:user][:deposit]).to_i
+    if @user.update(balance: @newbalance)
+      render json: UserSerializer.new(@user)
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -43,6 +44,34 @@ class Api::V1::UsersController < ApplicationController
     @user.destroy
   end
 
+  def transaction
+    @seller = User.find_by(id: user_params[:seller_id])
+    @price = (user_params[:price]).to_i
+    @buyer = current_user
+
+    if @buyer.balance > @price
+    
+      @seller_new_balance = @seller.balance + @price
+      @buyer_new_balance = @buyer.balance - @price
+    
+      @seller.update(balance: @seller_new_balance)
+      @buyer.update(balance: @buyer_new_balance)
+
+      seller_to_return = UserSerializer.new(@seller)
+      buyer_to_return = UserSerializer.new(@buyer)
+      users_to_return = {
+      seller: seller_to_return, 
+      buyer: buyer_to_return}
+
+      render json: users_to_return
+    else
+      render json: {
+                error: "Not Enough Funds to Purchase."
+        }
+    end
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -51,6 +80,6 @@ class Api::V1::UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:name, :email, :password, :balance)
+      params.require(:user).permit(:name, :email, :password, :balance, :deposit, :seller_id, :price)
     end
 end
